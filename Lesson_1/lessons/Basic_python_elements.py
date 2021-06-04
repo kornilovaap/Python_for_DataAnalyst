@@ -127,3 +127,78 @@ Name Price
 0 t1 100
 1 t2 200
 2 t3 500
+       
+# 6. Операторы if, then, else
+x = 19
+if x < 10:
+print('меньше 10')
+else:
+print('Больше или равно 10')
+_____
+Больше или равно 10   
+     
+a = ['t1', 18, 't2', 99.9]
+numeric_lst = []
+for i in a:
+if type(i) != str:
+numeric_lst.append(i)
+print(numeric_lst)
+[18, 99.9]   
+    
+# 7. Циклы
+print(list(range(5)))
+[0, 1, 2, 3, 4]
+for i in range(5):
+print(i)
+0
+1
+2
+3
+4
+    
+items = ['a','b', 'c', 'd']
+for item in items:
+print(item)
+a
+b
+c
+d
+    
+x = 0
+lst= []
+items = ['a','b', 'c', 'd']
+for item in items:
+     x += 1
+     print(x, item)
+     lst.append(x)
+print(lst)
+1 a
+2 b
+3 c
+4 d
+[1, 2, 3, 4]
+     
+x=0
+while x<5:
+x +=1
+print(x)
+1
+2
+3
+4
+5
+    
+# 8. Функции
+def areaCircle(radius):
+area = 3.14 * (radius ** 2)
+return area
+areaCircle(2)
+12.56
+     
+def volumeCylinder(radius, height = 3):
+return 3.14 * radius**2 * height
+volumeCylinder(2)
+37.68
+volumeCylinder(10,5)
+1570.0
+     
