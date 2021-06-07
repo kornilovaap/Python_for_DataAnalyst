@@ -14,3 +14,4 @@ _________
 ### [Урок 1: Повторяем основы](https://github.com/kornilovaap/Python_for_analyst_GeekBrains.ru/tree/main/Lesson_1) 
 1. Вспоминаем основы Python (массивы, списки, функции и etc.)
 
+### [Урок 2: Работа с библиотекой Pandas]()   
