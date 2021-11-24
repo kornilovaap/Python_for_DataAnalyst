@@ -1,6 +1,7 @@
 # Python_for_analyst       
-### Курс GeekBrains.ru
-Python для анализа данных.               
+### Python для анализа данных.
+Курс GeekBrains.ru                      
+               
              
 _________
 :information_source:    
