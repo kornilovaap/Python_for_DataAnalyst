@@ -1,0 +1,2426 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Урок 3. Python. Работа с библиотекой Pandas. Часть 2.ipynb",
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "jEAkHIqw0fpV"
+      },
+      "source": [
+        "Исходник датасета: https://www.kaggle.com/aerodinamicc/ecommerce-website-funnel-analysis\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hnxj-i19OvgQ"
+      },
+      "source": [
+        "# Загружаем файлы c датасетами в Google Colab"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-WJJ3GIhSI5L"
+      },
+      "source": [
+        "# Импортируем нужные бибилиотеки\n",
+        "import pandas as pd"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "flVuJZAbRyqn",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "c134fdb9-cddc-4912-82d0-5955d392228a"
+      },
+      "source": [
+        "# Загружаем в Python с помощью Pandas все датасеты\n",
+        "user_table = pd.read_csv('user_table.csv')\n",
+        "\n",
+        "# Просматриваем первые 5 строк датасета\n",
+        "user_table.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>date</th>\n",
+              "      <th>device</th>\n",
+              "      <th>sex</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>450007</td>\n",
+              "      <td>2015-02-28</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>756838</td>\n",
+              "      <td>2015-01-13</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>568983</td>\n",
+              "      <td>2015-04-09</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>190794</td>\n",
+              "      <td>2015-02-18</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>537909</td>\n",
+              "      <td>2015-01-15</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id        date   device     sex\n",
+              "0   450007  2015-02-28  Desktop  Female\n",
+              "1   756838  2015-01-13  Desktop    Male\n",
+              "2   568983  2015-04-09  Desktop    Male\n",
+              "3   190794  2015-02-18  Desktop  Female\n",
+              "4   537909  2015-01-15  Desktop    Male"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 3
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "uX4BO7K9Swfg",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "dee65e45-054e-4cc2-c6a7-0961fd64a38d"
+      },
+      "source": [
+        "# Просматриваем кол-во строк и столбцов каждого датасета\n",
+        "user_table.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(90400, 4)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 4
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8oZpMRrLSHmP",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "8098fdaf-97fe-40a0-bbb8-3599e4bd9dd9"
+      },
+      "source": [
+        "home_page = pd.read_csv('home_page_table.csv')\n",
+        "home_page.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>page</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>313593</td>\n",
+              "      <td>home_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>468315</td>\n",
+              "      <td>home_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>264005</td>\n",
+              "      <td>home_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>290784</td>\n",
+              "      <td>home_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>639104</td>\n",
+              "      <td>home_page</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id       page\n",
+              "0   313593  home_page\n",
+              "1   468315  home_page\n",
+              "2   264005  home_page\n",
+              "3   290784  home_page\n",
+              "4   639104  home_page"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 5
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "K1DJvp1-S1An",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "8d7286b6-733d-472b-d26a-96ee1ed39fdc"
+      },
+      "source": [
+        "home_page.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(90400, 2)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "bs2wbjD9HcMH",
+        "outputId": "0ffba81f-7193-40a1-b42e-9aff5be41d9e"
+      },
+      "source": [
+        "sum(home_page.duplicated())"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sRxBlsxOSYFU",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "17366fe3-ac9b-454f-bc66-a65c09c75a82"
+      },
+      "source": [
+        "search_page = pd.read_csv('search_page_table.csv')\n",
+        "search_page.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>page</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>15866</td>\n",
+              "      <td>search_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>347058</td>\n",
+              "      <td>search_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>577020</td>\n",
+              "      <td>search_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>780347</td>\n",
+              "      <td>search_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>383739</td>\n",
+              "      <td>search_page</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id         page\n",
+              "0    15866  search_page\n",
+              "1   347058  search_page\n",
+              "2   577020  search_page\n",
+              "3   780347  search_page\n",
+              "4   383739  search_page"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZLaSZJsmSpBs",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "2fe7ff8b-6b4b-4755-9f40-d6fc4ea6ec9b"
+      },
+      "source": [
+        "search_page.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(45200, 2)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9uskrM35S6OZ",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "868692f6-509f-4f19-fae1-477463281956"
+      },
+      "source": [
+        "payment_page = pd.read_csv('payment_page_table.csv')\n",
+        "payment_page.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>page</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>253019</td>\n",
+              "      <td>payment_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>310478</td>\n",
+              "      <td>payment_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>304081</td>\n",
+              "      <td>payment_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>901286</td>\n",
+              "      <td>payment_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>195052</td>\n",
+              "      <td>payment_page</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id          page\n",
+              "0   253019  payment_page\n",
+              "1   310478  payment_page\n",
+              "2   304081  payment_page\n",
+              "3   901286  payment_page\n",
+              "4   195052  payment_page"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 10
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "km1yhL8xTJGH",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "58625a18-67d4-4ed5-e9e5-c766580bdc96"
+      },
+      "source": [
+        "payment_page.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(6030, 2)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 11
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "CyoPpd5NUOjI",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "b325364e-ee0f-4544-afb3-cc673916f094"
+      },
+      "source": [
+        "payment_confirmation = pd.read_csv('payment_confirmation_table.csv')\n",
+        "payment_confirmation.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>page</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>123100</td>\n",
+              "      <td>payment_confirmation_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>704999</td>\n",
+              "      <td>payment_confirmation_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>407188</td>\n",
+              "      <td>payment_confirmation_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>538348</td>\n",
+              "      <td>payment_confirmation_page</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>841681</td>\n",
+              "      <td>payment_confirmation_page</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id                       page\n",
+              "0   123100  payment_confirmation_page\n",
+              "1   704999  payment_confirmation_page\n",
+              "2   407188  payment_confirmation_page\n",
+              "3   538348  payment_confirmation_page\n",
+              "4   841681  payment_confirmation_page"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 12
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "xmNf6T82UZ_0",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "d6433b52-7154-47c1-c765-8d06bdc5b451"
+      },
+      "source": [
+        "payment_confirmation.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(452, 2)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "4KkMkr12ncd0"
+      },
+      "source": [
+        "# Меняем название одинаковой колонки в каждом датасете\n",
+        "home_page = home_page.rename(columns = {'page':'home_page'})\n",
+        "search_page = search_page.rename(columns = {'page':'search_page'})\n",
+        "payment_page = payment_page.rename(columns = {'page':'payment_page'})\n",
+        "payment_confirmation = payment_confirmation.rename(columns = {'page':'payment_confirmation'})"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "SetI3h-PTMYz",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "0c8ae309-c859-4614-ef3a-f87a910e442f"
+      },
+      "source": [
+        "# Склеиваем последовательно все датасеты с помощью метода merge по идентификатору user_id\n",
+        "df = user_table.merge(home_page, on = 'user_id', how = 'left').merge(search_page, on = 'user_id', how = 'left') \\\n",
+        ".merge(payment_page, on = 'user_id', how = 'left').merge(payment_confirmation, on = 'user_id', how = 'left')\n",
+        "df.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>date</th>\n",
+              "      <th>device</th>\n",
+              "      <th>sex</th>\n",
+              "      <th>home_page</th>\n",
+              "      <th>search_page</th>\n",
+              "      <th>payment_page</th>\n",
+              "      <th>payment_confirmation</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>450007</td>\n",
+              "      <td>2015-02-28</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>756838</td>\n",
+              "      <td>2015-01-13</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>568983</td>\n",
+              "      <td>2015-04-09</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>search_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>190794</td>\n",
+              "      <td>2015-02-18</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>search_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>537909</td>\n",
+              "      <td>2015-01-15</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id        date   device  ...  search_page payment_page payment_confirmation\n",
+              "0   450007  2015-02-28  Desktop  ...          NaN          NaN                  NaN\n",
+              "1   756838  2015-01-13  Desktop  ...          NaN          NaN                  NaN\n",
+              "2   568983  2015-04-09  Desktop  ...  search_page          NaN                  NaN\n",
+              "3   190794  2015-02-18  Desktop  ...  search_page          NaN                  NaN\n",
+              "4   537909  2015-01-15  Desktop  ...          NaN          NaN                  NaN\n",
+              "\n",
+              "[5 rows x 8 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qcwOhuFBUkZu",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "a506a89e-6acb-4553-9132-36b40e10159e"
+      },
+      "source": [
+        "df.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(90400, 8)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 16
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "BoY6-Pg-UqdR",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "40db5ccb-9c93-4e4e-bbb4-6dd8c986a90e"
+      },
+      "source": [
+        "# Второй способ: склеиваем все датасеты сразу\n",
+        "from functools import reduce\n",
+        "\n",
+        "data_frames = [user_table, home_page, search_page, payment_page, payment_confirmation]\n",
+        "\n",
+        "df_merged = reduce(lambda  left,right: pd.merge(left,right,on='user_id', how='left'), data_frames)\n",
+        "\n",
+        "df_merged.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>date</th>\n",
+              "      <th>device</th>\n",
+              "      <th>sex</th>\n",
+              "      <th>home_page</th>\n",
+              "      <th>search_page</th>\n",
+              "      <th>payment_page</th>\n",
+              "      <th>payment_confirmation</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>450007</td>\n",
+              "      <td>2015-02-28</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>756838</td>\n",
+              "      <td>2015-01-13</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>568983</td>\n",
+              "      <td>2015-04-09</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>search_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>190794</td>\n",
+              "      <td>2015-02-18</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>search_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>537909</td>\n",
+              "      <td>2015-01-15</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>home_page</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id        date   device  ...  search_page payment_page payment_confirmation\n",
+              "0   450007  2015-02-28  Desktop  ...          NaN          NaN                  NaN\n",
+              "1   756838  2015-01-13  Desktop  ...          NaN          NaN                  NaN\n",
+              "2   568983  2015-04-09  Desktop  ...  search_page          NaN                  NaN\n",
+              "3   190794  2015-02-18  Desktop  ...  search_page          NaN                  NaN\n",
+              "4   537909  2015-01-15  Desktop  ...          NaN          NaN                  NaN\n",
+              "\n",
+              "[5 rows x 8 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 17
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DFn_gPNUVbN7",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "5547e1d3-bc88-402d-8c77-f22e9035ca8b"
+      },
+      "source": [
+        "df_merged.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(90400, 8)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 18
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hUGywiqRpk_I",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 195
+        },
+        "outputId": "113b7765-9a52-4bc6-c936-18c4ded56e1d"
+      },
+      "source": [
+        "# Для удоства последующих расчетов, перекодируем названия событий в 0/1 с помощью лямбда-функции\n",
+        "df['home_page'] = df['home_page'].apply(lambda x: 1 if x == 'home_page' else 0)\n",
+        "df['search_page'] = df['search_page'].apply(lambda x: 1 if x == 'search_page' else 0)\n",
+        "df['payment_page'] = df['payment_page'].apply(lambda x: 1 if x == 'payment_page' else 0)\n",
+        "df['payment_confirmation'] = df['payment_confirmation'].apply(lambda x: 1 if x == 'payment_confirmation_page' else 0)\n",
+        "\n",
+        "df.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>user_id</th>\n",
+              "      <th>date</th>\n",
+              "      <th>device</th>\n",
+              "      <th>sex</th>\n",
+              "      <th>home_page</th>\n",
+              "      <th>search_page</th>\n",
+              "      <th>payment_page</th>\n",
+              "      <th>payment_confirmation</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>450007</td>\n",
+              "      <td>2015-02-28</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>756838</td>\n",
+              "      <td>2015-01-13</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>568983</td>\n",
+              "      <td>2015-04-09</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>190794</td>\n",
+              "      <td>2015-02-18</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Female</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>537909</td>\n",
+              "      <td>2015-01-15</td>\n",
+              "      <td>Desktop</td>\n",
+              "      <td>Male</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   user_id        date  ... payment_page payment_confirmation\n",
+              "0   450007  2015-02-28  ...            0                    0\n",
+              "1   756838  2015-01-13  ...            0                    0\n",
+              "2   568983  2015-04-09  ...            0                    0\n",
+              "3   190794  2015-02-18  ...            0                    0\n",
+              "4   537909  2015-01-15  ...            0                    0\n",
+              "\n",
+              "[5 rows x 8 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 19
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "s6ocRzLfQdFD",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "780a8c1b-5ed3-4e40-a48c-c3a98bccf12b"
+      },
+      "source": [
+        "# Агрегируем данные: подсчитываем количество пользователей по разным типам устройств\n",
+        "df['device'].value_counts()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Desktop    60200\n",
+              "Mobile     30200\n",
+              "Name: device, dtype: int64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 20
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "cjzU_oJ8Rl0v",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "bb11f0c9-5e19-44d0-880d-a2a908bb8d1a"
+      },
+      "source": [
+        "# Агрегируем данные: подсчитываем общее количество пользователей и сколько из них подтвердили покупку\n",
+        "df['payment_confirmation'].agg({'users':'count', 'payers':'sum'})"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "users     90400\n",
+              "payers      452\n",
+              "Name: payment_confirmation, dtype: int64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "SDPkGefEpkRD",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 164
+        },
+        "outputId": "80d4f998-01b2-4811-987c-5d9f8aa91d81"
+      },
+      "source": [
+        "щ# Агрегируем данные: подсчитываем сколько пользователей совершило каждое из 4х событий на сайте\n",
+        "summary = df[['home_page', 'search_page', 'payment_page', 'payment_confirmation']].sum().reset_index()\n",
+        "summary.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>index</th>\n",
+              "      <th>0</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>home_page</td>\n",
+              "      <td>55858</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>search_page</td>\n",
+              "      <td>27922</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>payment_page</td>\n",
+              "      <td>3773</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>payment_confirmation</td>\n",
+              "      <td>294</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                  index      0\n",
+              "0             home_page  55858\n",
+              "1           search_page  27922\n",
+              "2          payment_page   3773\n",
+              "3  payment_confirmation    294"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sWFOHlVophKk",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 164
+        },
+        "outputId": "284e86ff-3473-4d06-8874-855d5def3dd1"
+      },
+      "source": [
+        "# Для удобства переименуем столбцы\n",
+        "summary= summary.rename(columns = {'index':'stage', 0:'number'})\n",
+        "summary.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>stage</th>\n",
+              "      <th>number</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>home_page</td>\n",
+              "      <td>55858</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>search_page</td>\n",
+              "      <td>27922</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>payment_page</td>\n",
+              "      <td>3773</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>payment_confirmation</td>\n",
+              "      <td>294</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                  stage  number\n",
+              "0             home_page   55858\n",
+              "1           search_page   27922\n",
+              "2          payment_page    3773\n",
+              "3  payment_confirmation     294"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 22
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "i8SxeCXnW7Mf",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 617
+        },
+        "outputId": "c13f9d9f-0db2-40f9-f2a2-37a5b16ae089"
+      },
+      "source": [
+        "# Импортируем графическую библиотеку Plotly (https://plotly.com/python/funnel-charts/)\n",
+        "from plotly import graph_objects as go\n",
+        "\n",
+        "# Настраиваем скрипт этой библиотеки для построения воронки конверсий нашими параметрами\n",
+        "fig = go.Figure(go.Funnel(\n",
+        "    y = summary['stage'],\n",
+        "    x = summary['number'],\n",
+        "    textinfo = \"value+percent previous\"))\n",
+        "\n",
+        "fig.update_layout(\n",
+        "    title = 'Воронка конверсии Интернет-магазина',\n",
+        "    title_x=0.5,\n",
+        "    autosize=False,\n",
+        "    width=1200,\n",
+        "    height=600)\n",
+        "\n",
+        "fig.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "<html>\n",
+              "<head><meta charset=\"utf-8\" /></head>\n",
+              "<body>\n",
+              "    <div>\n",
+              "            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG\"></script><script type=\"text/javascript\">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: \"STIX-Web\"}});}</script>\n",
+              "                <script type=\"text/javascript\">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>\n",
+              "        <script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>    \n",
+              "            <div id=\"8ce2e1b4-42ed-4f12-a141-2c746ad6ca28\" class=\"plotly-graph-div\" style=\"height:600px; width:1200px;\"></div>\n",
+              "            <script type=\"text/javascript\">\n",
+              "                \n",
+              "                    window.PLOTLYENV=window.PLOTLYENV || {};\n",
+              "                    \n",
+              "                if (document.getElementById(\"8ce2e1b4-42ed-4f12-a141-2c746ad6ca28\")) {\n",
+              "                    Plotly.newPlot(\n",
+              "                        '8ce2e1b4-42ed-4f12-a141-2c746ad6ca28',\n",
+              "                        [{\"textinfo\": \"value+percent previous\", \"type\": \"funnel\", \"x\": [55858, 27922, 3773, 294], \"y\": [\"home_page\", \"search_page\", \"payment_page\", \"payment_confirmation\"]}],\n",
+              "                        {\"autosize\": false, \"height\": 600, \"template\": {\"data\": {\"bar\": [{\"error_x\": {\"color\": \"#2a3f5f\"}, \"error_y\": {\"color\": \"#2a3f5f\"}, \"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"bar\"}], \"barpolar\": [{\"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"barpolar\"}], \"carpet\": [{\"aaxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"baxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"type\": \"carpet\"}], \"choropleth\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"choropleth\"}], \"contour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"contour\"}], \"contourcarpet\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"contourcarpet\"}], \"heatmap\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmap\"}], \"heatmapgl\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmapgl\"}], \"histogram\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"histogram\"}], \"histogram2d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2d\"}], \"histogram2dcontour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2dcontour\"}], \"mesh3d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"mesh3d\"}], \"parcoords\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"parcoords\"}], \"pie\": [{\"automargin\": true, \"type\": \"pie\"}], \"scatter\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter\"}], \"scatter3d\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter3d\"}], \"scattercarpet\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattercarpet\"}], \"scattergeo\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergeo\"}], \"scattergl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergl\"}], \"scattermapbox\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattermapbox\"}], \"scatterpolar\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolar\"}], \"scatterpolargl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolargl\"}], \"scatterternary\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterternary\"}], \"surface\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"surface\"}], \"table\": [{\"cells\": {\"fill\": {\"color\": \"#EBF0F8\"}, \"line\": {\"color\": \"white\"}}, \"header\": {\"fill\": {\"color\": \"#C8D4E3\"}, \"line\": {\"color\": \"white\"}}, \"type\": \"table\"}]}, \"layout\": {\"annotationdefaults\": {\"arrowcolor\": \"#2a3f5f\", \"arrowhead\": 0, \"arrowwidth\": 1}, \"coloraxis\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"colorscale\": {\"diverging\": [[0, \"#8e0152\"], [0.1, \"#c51b7d\"], [0.2, \"#de77ae\"], [0.3, \"#f1b6da\"], [0.4, \"#fde0ef\"], [0.5, \"#f7f7f7\"], [0.6, \"#e6f5d0\"], [0.7, \"#b8e186\"], [0.8, \"#7fbc41\"], [0.9, \"#4d9221\"], [1, \"#276419\"]], \"sequential\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"sequentialminus\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]]}, \"colorway\": [\"#636efa\", \"#EF553B\", \"#00cc96\", \"#ab63fa\", \"#FFA15A\", \"#19d3f3\", \"#FF6692\", \"#B6E880\", \"#FF97FF\", \"#FECB52\"], \"font\": {\"color\": \"#2a3f5f\"}, \"geo\": {\"bgcolor\": \"white\", \"lakecolor\": \"white\", \"landcolor\": \"#E5ECF6\", \"showlakes\": true, \"showland\": true, \"subunitcolor\": \"white\"}, \"hoverlabel\": {\"align\": \"left\"}, \"hovermode\": \"closest\", \"mapbox\": {\"style\": \"light\"}, \"paper_bgcolor\": \"white\", \"plot_bgcolor\": \"#E5ECF6\", \"polar\": {\"angularaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"radialaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"scene\": {\"xaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"yaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"zaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}}, \"shapedefaults\": {\"line\": {\"color\": \"#2a3f5f\"}}, \"ternary\": {\"aaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"baxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"caxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"title\": {\"x\": 0.05}, \"xaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}, \"yaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}}}, \"title\": {\"text\": \"\\u0412\\u043e\\u0440\\u043e\\u043d\\u043a\\u0430 \\u043a\\u043e\\u043d\\u0432\\u0435\\u0440\\u0441\\u0438\\u0438 \\u0418\\u043d\\u0442\\u0435\\u0440\\u043d\\u0435\\u0442-\\u043c\\u0430\\u0433\\u0430\\u0437\\u0438\\u043d\\u0430\", \"x\": 0.5}, \"width\": 1200},\n",
+              "                        {\"responsive\": true}\n",
+              "                    ).then(function(){\n",
+              "                            \n",
+              "var gd = document.getElementById('8ce2e1b4-42ed-4f12-a141-2c746ad6ca28');\n",
+              "var x = new MutationObserver(function (mutations, observer) {{\n",
+              "        var display = window.getComputedStyle(gd).display;\n",
+              "        if (!display || display === 'none') {{\n",
+              "            console.log([gd, 'removed!']);\n",
+              "            Plotly.purge(gd);\n",
+              "            observer.disconnect();\n",
+              "        }}\n",
+              "}});\n",
+              "\n",
+              "// Listen for the removal of the full notebook cells\n",
+              "var notebookContainer = gd.closest('#notebook-container');\n",
+              "if (notebookContainer) {{\n",
+              "    x.observe(notebookContainer, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "// Listen for the clearing of the current output cell\n",
+              "var outputEl = gd.closest('.output');\n",
+              "if (outputEl) {{\n",
+              "    x.observe(outputEl, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "                        })\n",
+              "                };\n",
+              "                \n",
+              "            </script>\n",
+              "        </div>\n",
+              "</body>\n",
+              "</html>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "lQltvQUuoKok",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 164
+        },
+        "outputId": "3d4aeac3-3d30-47ac-9e30-02b013a8abc6"
+      },
+      "source": [
+        "# Из квиза на уроке мы помним, что лучше сегментировать воронку конверсий в разрезе характеристик пользователей\n",
+        "# Подготовим группировку данных по совершению событий на сайте в разрезе типов устройств, используя метод groupby\n",
+        "# Метод reset_index() используется для того, чтобы превратить индекс, по которому группируем данные (device), в отдельную колонку датафрейма\n",
+        "dfg = df.groupby('device')[['home_page', 'search_page', 'payment_page', 'payment_confirmation']].sum().unstack('device').unstack('device').reset_index()\n",
+        "\n",
+        "# Уберем ненужный заголовок верхнего уровня\n",
+        "dfg.columns.name = None\n",
+        "\n",
+        "# Переименуем стандартные после процедуры заголовки\n",
+        "dfg = dfg.rename(columns = {'index':'Page'})\n",
+        "\n",
+        "# Посмотрим, что получилось\n",
+        "dfg.head()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Page</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <th>Mobile</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>home_page</td>\n",
+              "      <td>37231</td>\n",
+              "      <td>18627</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>search_page</td>\n",
+              "      <td>18597</td>\n",
+              "      <td>9325</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>payment_page</td>\n",
+              "      <td>1888</td>\n",
+              "      <td>1885</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>payment_confirmation</td>\n",
+              "      <td>94</td>\n",
+              "      <td>200</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                   Page  Desktop  Mobile\n",
+              "0             home_page    37231   18627\n",
+              "1           search_page    18597    9325\n",
+              "2          payment_page     1888    1885\n",
+              "3  payment_confirmation       94     200"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9QToh8EOLXyP",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 617
+        },
+        "outputId": "774ccaa2-e3a8-4ce2-ca49-67aef07ebee6"
+      },
+      "source": [
+        "# Строим более продвинутый вариант воронки конверсий на сайте с сегментацией по типам устройств\n",
+        "\n",
+        "\n",
+        "# Настраиваем скрипт библиотеки Plotly нашими параметрами\n",
+        "fig = go.Figure()\n",
+        "\n",
+        "# Часть графика для типа устройств Dekstop\n",
+        "fig.add_trace(go.Funnel(\n",
+        "    y = dfg['Page'],\n",
+        "    x = dfg['Desktop'],\n",
+        "    name = 'Desktop',\n",
+        "    constraintext='outside',\n",
+        "    textposition = 'inside',\n",
+        "    textinfo = 'value+percent previous'\n",
+        "    ))\n",
+        "\n",
+        "# Часть графика для типа устройств Mobile\n",
+        "fig.add_trace(go.Funnel(\n",
+        "    y = dfg['Page'],\n",
+        "    x = dfg['Mobile'],\n",
+        "    name = 'Mobile',\n",
+        "    textposition = 'auto',\n",
+        "    textinfo = 'value+percent previous'\n",
+        "   ))\n",
+        "\n",
+        "fig.update_layout(\n",
+        "    title = 'Воронка конверсии по типам устройств',\n",
+        "    title_x=0.5,\n",
+        "    autosize=False,\n",
+        "    width=1200,\n",
+        "    height=600)\n",
+        "\n",
+        "fig.show()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "<html>\n",
+              "<head><meta charset=\"utf-8\" /></head>\n",
+              "<body>\n",
+              "    <div>\n",
+              "            <script src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG\"></script><script type=\"text/javascript\">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: \"STIX-Web\"}});}</script>\n",
+              "                <script type=\"text/javascript\">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>\n",
+              "        <script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>    \n",
+              "            <div id=\"733c863a-6db8-4320-b668-9d9c6f2fb77b\" class=\"plotly-graph-div\" style=\"height:600px; width:1200px;\"></div>\n",
+              "            <script type=\"text/javascript\">\n",
+              "                \n",
+              "                    window.PLOTLYENV=window.PLOTLYENV || {};\n",
+              "                    \n",
+              "                if (document.getElementById(\"733c863a-6db8-4320-b668-9d9c6f2fb77b\")) {\n",
+              "                    Plotly.newPlot(\n",
+              "                        '733c863a-6db8-4320-b668-9d9c6f2fb77b',\n",
+              "                        [{\"constraintext\": \"outside\", \"name\": \"Desktop\", \"textinfo\": \"value+percent previous\", \"textposition\": \"inside\", \"type\": \"funnel\", \"x\": [37231, 18597, 1888, 94], \"y\": [\"home_page\", \"search_page\", \"payment_page\", \"payment_confirmation\"]}, {\"name\": \"Mobile\", \"textinfo\": \"value+percent previous\", \"textposition\": \"auto\", \"type\": \"funnel\", \"x\": [18627, 9325, 1885, 200], \"y\": [\"home_page\", \"search_page\", \"payment_page\", \"payment_confirmation\"]}],\n",
+              "                        {\"autosize\": false, \"height\": 600, \"template\": {\"data\": {\"bar\": [{\"error_x\": {\"color\": \"#2a3f5f\"}, \"error_y\": {\"color\": \"#2a3f5f\"}, \"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"bar\"}], \"barpolar\": [{\"marker\": {\"line\": {\"color\": \"#E5ECF6\", \"width\": 0.5}}, \"type\": \"barpolar\"}], \"carpet\": [{\"aaxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"baxis\": {\"endlinecolor\": \"#2a3f5f\", \"gridcolor\": \"white\", \"linecolor\": \"white\", \"minorgridcolor\": \"white\", \"startlinecolor\": \"#2a3f5f\"}, \"type\": \"carpet\"}], \"choropleth\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"choropleth\"}], \"contour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"contour\"}], \"contourcarpet\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"contourcarpet\"}], \"heatmap\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmap\"}], \"heatmapgl\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"heatmapgl\"}], \"histogram\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"histogram\"}], \"histogram2d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2d\"}], \"histogram2dcontour\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"histogram2dcontour\"}], \"mesh3d\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"type\": \"mesh3d\"}], \"parcoords\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"parcoords\"}], \"pie\": [{\"automargin\": true, \"type\": \"pie\"}], \"scatter\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter\"}], \"scatter3d\": [{\"line\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatter3d\"}], \"scattercarpet\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattercarpet\"}], \"scattergeo\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergeo\"}], \"scattergl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattergl\"}], \"scattermapbox\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scattermapbox\"}], \"scatterpolar\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolar\"}], \"scatterpolargl\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterpolargl\"}], \"scatterternary\": [{\"marker\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"type\": \"scatterternary\"}], \"surface\": [{\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}, \"colorscale\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"type\": \"surface\"}], \"table\": [{\"cells\": {\"fill\": {\"color\": \"#EBF0F8\"}, \"line\": {\"color\": \"white\"}}, \"header\": {\"fill\": {\"color\": \"#C8D4E3\"}, \"line\": {\"color\": \"white\"}}, \"type\": \"table\"}]}, \"layout\": {\"annotationdefaults\": {\"arrowcolor\": \"#2a3f5f\", \"arrowhead\": 0, \"arrowwidth\": 1}, \"coloraxis\": {\"colorbar\": {\"outlinewidth\": 0, \"ticks\": \"\"}}, \"colorscale\": {\"diverging\": [[0, \"#8e0152\"], [0.1, \"#c51b7d\"], [0.2, \"#de77ae\"], [0.3, \"#f1b6da\"], [0.4, \"#fde0ef\"], [0.5, \"#f7f7f7\"], [0.6, \"#e6f5d0\"], [0.7, \"#b8e186\"], [0.8, \"#7fbc41\"], [0.9, \"#4d9221\"], [1, \"#276419\"]], \"sequential\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]], \"sequentialminus\": [[0.0, \"#0d0887\"], [0.1111111111111111, \"#46039f\"], [0.2222222222222222, \"#7201a8\"], [0.3333333333333333, \"#9c179e\"], [0.4444444444444444, \"#bd3786\"], [0.5555555555555556, \"#d8576b\"], [0.6666666666666666, \"#ed7953\"], [0.7777777777777778, \"#fb9f3a\"], [0.8888888888888888, \"#fdca26\"], [1.0, \"#f0f921\"]]}, \"colorway\": [\"#636efa\", \"#EF553B\", \"#00cc96\", \"#ab63fa\", \"#FFA15A\", \"#19d3f3\", \"#FF6692\", \"#B6E880\", \"#FF97FF\", \"#FECB52\"], \"font\": {\"color\": \"#2a3f5f\"}, \"geo\": {\"bgcolor\": \"white\", \"lakecolor\": \"white\", \"landcolor\": \"#E5ECF6\", \"showlakes\": true, \"showland\": true, \"subunitcolor\": \"white\"}, \"hoverlabel\": {\"align\": \"left\"}, \"hovermode\": \"closest\", \"mapbox\": {\"style\": \"light\"}, \"paper_bgcolor\": \"white\", \"plot_bgcolor\": \"#E5ECF6\", \"polar\": {\"angularaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"radialaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"scene\": {\"xaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"yaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}, \"zaxis\": {\"backgroundcolor\": \"#E5ECF6\", \"gridcolor\": \"white\", \"gridwidth\": 2, \"linecolor\": \"white\", \"showbackground\": true, \"ticks\": \"\", \"zerolinecolor\": \"white\"}}, \"shapedefaults\": {\"line\": {\"color\": \"#2a3f5f\"}}, \"ternary\": {\"aaxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"baxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}, \"bgcolor\": \"#E5ECF6\", \"caxis\": {\"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\"}}, \"title\": {\"x\": 0.05}, \"xaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}, \"yaxis\": {\"automargin\": true, \"gridcolor\": \"white\", \"linecolor\": \"white\", \"ticks\": \"\", \"title\": {\"standoff\": 15}, \"zerolinecolor\": \"white\", \"zerolinewidth\": 2}}}, \"title\": {\"text\": \"\\u0412\\u043e\\u0440\\u043e\\u043d\\u043a\\u0430 \\u043a\\u043e\\u043d\\u0432\\u0435\\u0440\\u0441\\u0438\\u0438 \\u043f\\u043e \\u0442\\u0438\\u043f\\u0430\\u043c \\u0443\\u0441\\u0442\\u0440\\u043e\\u0439\\u0441\\u0442\\u0432\", \"x\": 0.5}, \"width\": 1200},\n",
+              "                        {\"responsive\": true}\n",
+              "                    ).then(function(){\n",
+              "                            \n",
+              "var gd = document.getElementById('733c863a-6db8-4320-b668-9d9c6f2fb77b');\n",
+              "var x = new MutationObserver(function (mutations, observer) {{\n",
+              "        var display = window.getComputedStyle(gd).display;\n",
+              "        if (!display || display === 'none') {{\n",
+              "            console.log([gd, 'removed!']);\n",
+              "            Plotly.purge(gd);\n",
+              "            observer.disconnect();\n",
+              "        }}\n",
+              "}});\n",
+              "\n",
+              "// Listen for the removal of the full notebook cells\n",
+              "var notebookContainer = gd.closest('#notebook-container');\n",
+              "if (notebookContainer) {{\n",
+              "    x.observe(notebookContainer, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "// Listen for the clearing of the current output cell\n",
+              "var outputEl = gd.closest('.output');\n",
+              "if (outputEl) {{\n",
+              "    x.observe(outputEl, {childList: true});\n",
+              "}}\n",
+              "\n",
+              "                        })\n",
+              "                };\n",
+              "                \n",
+              "            </script>\n",
+              "        </div>\n",
+              "</body>\n",
+              "</html>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ndFOzpGgVgje"
+      },
+      "source": [
+        "А теперь потренируемся в создании сводных таблиц методами groupby, pivot_table, crosstab для ответов на поставленные вопросы:"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "6yFRgzgfS1H1"
+      },
+      "source": [
+        "1) Аудитория какого пола и на каких типах устройств больше всего у интернет-магазина?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "THL3wAbar2cp",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 164
+        },
+        "outputId": "50c55685-5051-43b6-8527-5e9c10a19542"
+      },
+      "source": [
+        "# Используем метод pivot_table\n",
+        "pd.pivot_table(df, index = 'sex', columns = 'device', values = 'home_page', aggfunc = 'sum', margins=True)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th>device</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <th>Mobile</th>\n",
+              "      <th>All</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>sex</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>Female</th>\n",
+              "      <td>18443</td>\n",
+              "      <td>9231</td>\n",
+              "      <td>27674</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Male</th>\n",
+              "      <td>18788</td>\n",
+              "      <td>9396</td>\n",
+              "      <td>28184</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>All</th>\n",
+              "      <td>37231</td>\n",
+              "      <td>18627</td>\n",
+              "      <td>55858</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "device  Desktop  Mobile    All\n",
+              "sex                           \n",
+              "Female    18443    9231  27674\n",
+              "Male      18788    9396  28184\n",
+              "All       37231   18627  55858"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 26
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DNFwirULxTXE",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 164
+        },
+        "outputId": "fa97d869-1214-4999-90bd-d1548ab1f74f"
+      },
+      "source": [
+        "# Используем функцию crosstab\n",
+        "# (по умолчанию рассчитывает частоты, поэтому valus = df['user_id'] и aggfunc = 'count' можно не указывать)\n",
+        "pd.crosstab(index = df['sex'], columns = df['device'], margins = True)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th>device</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <th>Mobile</th>\n",
+              "      <th>All</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>sex</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>Female</th>\n",
+              "      <td>18443</td>\n",
+              "      <td>9231</td>\n",
+              "      <td>27674</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Male</th>\n",
+              "      <td>18788</td>\n",
+              "      <td>9396</td>\n",
+              "      <td>28184</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>All</th>\n",
+              "      <td>37231</td>\n",
+              "      <td>18627</td>\n",
+              "      <td>55858</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "device  Desktop  Mobile    All\n",
+              "sex                           \n",
+              "Female    18443    9231  27674\n",
+              "Male      18788    9396  28184\n",
+              "All       37231   18627  55858"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 27
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "TFCq6Q3Ew5Xg",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "d9a78977-db1b-4988-cdfe-4cce24640e84"
+      },
+      "source": [
+        "# Используем метод groupby\n",
+        "df.groupby(['sex', 'device'])['user_id'].count()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "sex     device \n",
+              "Female  Desktop    18443\n",
+              "        Mobile      9231\n",
+              "Male    Desktop    18788\n",
+              "        Mobile      9396\n",
+              "Name: user_id, dtype: int64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 28
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pXbrO6XzWP3J",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 135
+        },
+        "outputId": "fc667c6e-2339-4dc2-a79f-fa0563f9fbfd"
+      },
+      "source": [
+        "# Немного не то представление получилось, да? Попробуем добавить метод unstack()\n",
+        "df.groupby(['sex', 'device'])['user_id'].count().unstack('device')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th>device</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <th>Mobile</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>sex</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>Female</th>\n",
+              "      <td>18443</td>\n",
+              "      <td>9231</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Male</th>\n",
+              "      <td>18788</td>\n",
+              "      <td>9396</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "device  Desktop  Mobile\n",
+              "sex                    \n",
+              "Female    18443    9231\n",
+              "Male      18788    9396"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 29
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Pgm7YALRszqA"
+      },
+      "source": [
+        "2) Кто чаще всего останавливается только на поиске товаров в интернет-магазине - мужчины или женщины?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "vyvj6QfNuoIv",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "8dbd536f-1264-4da4-ae25-4b7b2c44bf9a"
+      },
+      "source": [
+        "# С этой задачей лучше справится groupby\n",
+        "(df.groupby('sex')['search_page'].sum() - df.groupby('sex')['payment_page'].sum()) / df.groupby('sex')['search_page'].sum()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "sex\n",
+              "Female    0.860260\n",
+              "Male      0.869469\n",
+              "dtype: float64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 30
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "07a5E841rQJq"
+      },
+      "source": [
+        "3) Кто чаще подтверждает платеж и совершает окончательную покупку?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "fLavKcYrOgXy",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 135
+        },
+        "outputId": "fa6b8c21-b1e4-4ec5-d161-bf0d58b59a01"
+      },
+      "source": [
+        "# Используем функцию crosstab и ее параметр normalize для получения относительных частот \n",
+        "# (по умолчанию рассчитывает частоты, поэтому valus = df['user_id'] и aggfunc = 'count' можно не указывать)\n",
+        "pd.crosstab(index = df['sex'], columns = df['payment_confirmation'], normalize='index')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th>payment_confirmation</th>\n",
+              "      <th>0</th>\n",
+              "      <th>1</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>sex</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>Female</th>\n",
+              "      <td>0.994182</td>\n",
+              "      <td>0.005818</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Male</th>\n",
+              "      <td>0.995281</td>\n",
+              "      <td>0.004719</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "payment_confirmation         0         1\n",
+              "sex                                     \n",
+              "Female                0.994182  0.005818\n",
+              "Male                  0.995281  0.004719"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 31
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_adKz45MZ-6O",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 135
+        },
+        "outputId": "35c7bbd9-0dd5-40a5-de2a-b023d82cec8e"
+      },
+      "source": [
+        "# Используем метод pivot_table (по умолчанию рассчитывает средние значения, поэтому  aggfunc = 'mean' можно не указывать)\n",
+        "df.pivot_table(index = ['sex'], values = 'payment_confirmation')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>payment_confirmation</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>sex</th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>Female</th>\n",
+              "      <td>0.005818</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Male</th>\n",
+              "      <td>0.004719</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "        payment_confirmation\n",
+              "sex                         \n",
+              "Female              0.005818\n",
+              "Male                0.004719"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 32
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "yP2oSFQCwkym",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "4f29b5a0-06c2-4dd1-f9a1-2e914e1d72c6"
+      },
+      "source": [
+        "# Используем метод groupby\n",
+        "df.groupby('sex')['payment_confirmation'].mean()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "sex\n",
+              "Female    0.005818\n",
+              "Male      0.004719\n",
+              "Name: payment_confirmation, dtype: float64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 33
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "KE44OdGusZr0"
+      },
+      "source": [
+        "4) И на каких устройствах?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "lUwXO6fswJ-4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 194
+        },
+        "outputId": "7c001295-008d-411e-fa8e-5678e62abe7f"
+      },
+      "source": [
+        "# Используем функцию crosstab и ее параметр normalize для получения относительных частот \n",
+        "pd.crosstab(index = [df['sex'], df['device']], columns = df['payment_confirmation'], normalize='index')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>payment_confirmation</th>\n",
+              "      <th>0</th>\n",
+              "      <th>1</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>sex</th>\n",
+              "      <th>device</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">Female</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <td>0.997343</td>\n",
+              "      <td>0.002657</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Mobile</th>\n",
+              "      <td>0.987867</td>\n",
+              "      <td>0.012133</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">Male</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <td>0.997605</td>\n",
+              "      <td>0.002395</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Mobile</th>\n",
+              "      <td>0.990634</td>\n",
+              "      <td>0.009366</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "payment_confirmation         0         1\n",
+              "sex    device                           \n",
+              "Female Desktop        0.997343  0.002657\n",
+              "       Mobile         0.987867  0.012133\n",
+              "Male   Desktop        0.997605  0.002395\n",
+              "       Mobile         0.990634  0.009366"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 34
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "3s2OuQD1Y6QZ",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 194
+        },
+        "outputId": "c5f7d240-775b-47a0-9495-b0c2a761662c"
+      },
+      "source": [
+        "# Используем метод pivot_table\n",
+        "df.pivot_table(index = ['sex','device'], values = 'payment_confirmation')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th>payment_confirmation</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>sex</th>\n",
+              "      <th>device</th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">Female</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <td>0.002657</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Mobile</th>\n",
+              "      <td>0.012133</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">Male</th>\n",
+              "      <th>Desktop</th>\n",
+              "      <td>0.002395</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Mobile</th>\n",
+              "      <td>0.009366</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                payment_confirmation\n",
+              "sex    device                       \n",
+              "Female Desktop              0.002657\n",
+              "       Mobile               0.012133\n",
+              "Male   Desktop              0.002395\n",
+              "       Mobile               0.009366"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 35
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "eToSFXL7zXG2",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "647a3bee-48f7-4909-b2de-19924cffe171"
+      },
+      "source": [
+        "# Используем метод groupby\n",
+        "df.groupby(['sex', 'device'])['payment_confirmation'].mean()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "sex     device \n",
+              "Female  Desktop    0.002657\n",
+              "        Mobile     0.012133\n",
+              "Male    Desktop    0.002395\n",
+              "        Mobile     0.009366\n",
+              "Name: payment_confirmation, dtype: float64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 36
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "tdcMUqj9Jie2"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
