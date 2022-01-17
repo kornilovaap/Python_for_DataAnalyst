@@ -1,5 +1,5 @@
 # Python_for_analyst       
-## Python для анализа данных: Pandas, Matplotlib, Seaborn, Scipy, Numpy.              
+## Python для анализа данных: Pandas, Matplotlib, Seaborn, Scipy, Numpy + немного машинного обучения.              
 
 Самостоятельное изучение по курсу Python для аналитиков от geekbrains.ru
 
